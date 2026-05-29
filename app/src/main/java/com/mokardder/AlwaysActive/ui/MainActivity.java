@@ -1,5 +1,8 @@
 package com.mokardder.AlwaysActive.ui;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.provider.Settings;
 import android.app.Activity;
 import android.content.Intent;
@@ -20,6 +23,19 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
 
+    private final ActivityResultLauncher<String> notificationPermissionLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.RequestPermission(),
+                    isGranted -> {
+                        if (!isGranted) {
+                            Toast.makeText(
+                                            this,
+                                            "Notifications disabled for sync updates",
+                                            Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+                    });
+
     private final ActivityResultLauncher<Intent> vpnPermissionLauncher =
             registerForActivityResult(
                     new ActivityResultContracts.StartActivityForResult(),
@@ -38,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        requestNotificationPermissionIfNeeded();
 
         binding.btnVPN.setOnClickListener(
                 v -> {
@@ -66,6 +84,14 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT)
                             .show();
                 });
+    }
+
+    private void requestNotificationPermissionIfNeeded() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+                && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+            notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+        }
     }
 
     private void showDialog(

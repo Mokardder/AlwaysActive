@@ -33,6 +33,12 @@ public class AutomaticAccountSyncAdapter extends AbstractThreadedSyncAdapter {
                         + " from " + chainSource
                         + " with depth " + depthRemaining);
 
+        NotificationUtil.showSyncNotification(
+                getContext(),
+                account.name,
+                depthRemaining,
+                chainSource);
+
         if (depthRemaining <= 0) {
             Log.d(TAG, "Sync chain finished for " + account.name);
             return;
