@@ -8,8 +8,6 @@ import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.mokardder.AlwaysActive.service.Sync.utils.NotificationUtil;
-
 public class AutomaticAccountSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private static final String TAG = "AccountSync";
