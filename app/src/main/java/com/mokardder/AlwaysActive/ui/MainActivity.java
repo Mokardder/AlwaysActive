@@ -1,8 +1,6 @@
 package com.mokardder.AlwaysActive.ui;
 
 import android.provider.Settings;
-import com.google.android.material.color.DynamicColors;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.net.VpnService;
@@ -15,8 +13,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mokardder.AlwaysActive.databinding.ActivityMainBinding;
+import com.mokardder.AlwaysActive.service.Sync.AccountHelper;
 import com.mokardder.AlwaysActive.service.VPN.MyVpnService;
-import com.mokardder.AlwaysActive.ui.MainActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                             this::checkAndRequestVpnPermission);
                 });
                 
-              binding.btnTile.setOnClickListener(
+        binding.btnTile.setOnClickListener(
                 v -> {
                     showDialog(
                             "QSTile Service",
@@ -58,7 +56,16 @@ public class MainActivity extends AppCompatActivity {
                             "Grant",
                             null);
                 });
-                
+
+        binding.btnSync.setOnClickListener(
+                v -> {
+                    AccountHelper.startChainedSync(this);
+                    Toast.makeText(
+                                    this,
+                                    "Account sync chain started with depth 10",
+                                    Toast.LENGTH_SHORT)
+                            .show();
+                });
     }
 
     private void showDialog(
