@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_height="match_parent"
+     android:layout_width="match_parent"
+     tools:context=".ui.MainActivity">
+
+    <RelativeLayout
+         android:layout_height="match_parent"
+         android:layout_width="match_parent">
+
+        <ScrollView
+             android:layout_height="match_parent"
+             android:layout_width="match_parent">
+
+            <RelativeLayout
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:padding="16dp">
+
+                <TextView
+                     android:layout_height="wrap_content"
+                     android:layout_width="match_parent"
+                     android:textSize="18sp"
+                     android:id="@+id/textView1"
+                     android:text="Vpn Service" />
+
+                <Button
+                     android:layout_height="wrap_content"
+                     android:layout_width="match_parent"
+                     android:layout_below="@id/textView1"
+                     android:layout_marginTop="8dp"
+                     android:id="@+id/btnVPN"
+                     android:text="Allow VPN Service" />
+
+                <TextView
+                     android:layout_height="wrap_content"
+                     android:layout_width="match_parent"
+                     android:layout_below="@id/btnVPN"
+                     android:textSize="18sp"
+                     android:layout_marginTop="24dp"
+                     android:id="@+id/textView2"
+                     android:text="QSTile Service" />
+
+                <Button
+                     android:layout_height="wrap_content"
+                     android:layout_width="match_parent"
+                     android:layout_below="@id/textView2"
+                     android:layout_marginTop="8dp"
+                     android:id="@+id/btn_tile"
+                     android:text="Continue" />
+
+                <TextView
+                     android:layout_height="wrap_content"
+                     android:layout_width="match_parent"
+                     android:layout_below="@id/btn_tile"
+                     android:textSize="18sp"
+                     android:layout_marginTop="24dp"
+                     android:id="@+id/textView3"
+                     android:text="Double Chained Account Sync" />
+
+                <Button
+                     android:layout_height="wrap_content"
+                     android:layout_width="match_parent"
+                     android:layout_below="@id/textView3"
+                     android:layout_marginTop="8dp"
+                     android:id="@+id/btnSync"
+                     android:text="Start Account Sync" />
+
+                <TextView
+                     android:layout_height="wrap_content"
+                     android:layout_width="match_parent"
+                     android:layout_below="@id/btnSync"
+                     android:textSize="18sp"
+                     android:layout_marginTop="24dp"
+                     android:id="@+id/textView4"
+                     android:text="This is the fourth text view" />
+
+                <Button
+                     android:layout_height="wrap_content"
+                     android:layout_width="match_parent"
+                     android:layout_below="@id/textView4"
+                     android:layout_marginTop="8dp"
+                     android:id="@+id/button4"
+                     android:text="Continue 4" />
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+</RelativeLayout>
