@@ -1,8 +1,9 @@
 package com.mokardder.AlwaysActive.ui;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.provider.Settings;
-import com.google.android.material.color.DynamicColors;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.net.VpnService;
@@ -15,12 +16,25 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mokardder.AlwaysActive.databinding.ActivityMainBinding;
+import com.mokardder.AlwaysActive.service.Sync.AccountHelper;
 import com.mokardder.AlwaysActive.service.VPN.MyVpnService;
-import com.mokardder.AlwaysActive.ui.MainActivity;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+
+    private final ActivityResultLauncher<String> notificationPermissionLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.RequestPermission(),
+                    isGranted -> {
+                        if (!isGranted) {
+                            Toast.makeText(
+                                            this,
+                                            "Notifications disabled for sync updates",
+                                            Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+                    });
 
     private final ActivityResultLauncher<Intent> vpnPermissionLauncher =
             registerForActivityResult(
@@ -41,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        requestNotificationPermissionIfNeeded();
+
         binding.btnVPN.setOnClickListener(
                 v -> {
                     showDialog(
@@ -50,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                             this::checkAndRequestVpnPermission);
                 });
                 
-              binding.btnTile.setOnClickListener(
+        binding.btnTile.setOnClickListener(
                 v -> {
                     showDialog(
                             "QSTile Service",
@@ -58,7 +74,24 @@ public class MainActivity extends AppCompatActivity {
                             "Grant",
                             null);
                 });
-                
+
+        binding.btnSync.setOnClickListener(
+                v -> {
+                    AccountHelper.startChainedSync(this);
+                    Toast.makeText(
+                                    this,
+                                    "Account sync chain started with depth 10",
+                                    Toast.LENGTH_SHORT)
+                            .show();
+                });
+    }
+
+    private void requestNotificationPermissionIfNeeded() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+                && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+            notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+        }
     }
 
     private void showDialog(
