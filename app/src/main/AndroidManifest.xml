@@ -38,7 +38,7 @@
             </intent-filter>
         </service>
         <service
-            android:name=".service.QSTile"
+            android:name=".service.QSTile.MyTileService"
             android:label="QSAlways"
             android:icon="@mipmap/ic_launcher_foreground"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
@@ -51,24 +51,36 @@
 
         </service>
 
-  <service
-        android:name=".SyncService"
-        android:exported="true"
-        android:process=":sync">
+        <provider
+            android:name=".service.Sync.StubContentProvider"
+            android:authorities="com.mokardder.AlwaysActive.sync.provider"
+            android:exported="false"
+            android:syncable="true" />
 
-        <intent-filter>
-            <action
-                android:name=
-                    "android.content.SyncAdapter" />
-        </intent-filter>
+        <service
+            android:name=".service.Sync.AuthenticatorService"
+            android:exported="true"
+            android:permission="android.permission.BIND_ACCOUNT_AUTHENTICATOR">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
 
-        <meta-data
-            android:name=
-                "android.content.SyncAdapter"
-
-            android:resource=
-                "@xml/sync_adapter" />
-    </service>
+        <service
+            android:name=".service.Sync.SyncService"
+            android:exported="true"
+            android:permission="android.permission.BIND_SYNC_ADAPTER"
+            android:process=":sync">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/sync_adapter" />
+        </service>
 
 
     </application>
